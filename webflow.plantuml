@@ -1,0 +1,102 @@
+@startuml
+'default
+top to bottom direction
+!define DARKBLUE
+!includeurl https://raw.githubusercontent.com/Drakemor/RedDress-PlantUML/master/style.puml
+skinparam classAttributeIconSize 0
+skinparam packageStyle rectangle
+
+package views <<Rectangle>> #DodgerBlue {
+    package index.ejs <<Rectangle>> #1DBAAA{
+        object createProjectForm #DarkSlateGray
+        createProjectForm : input(hidden) = name  
+    }
+    package issue.ejs <<Rectangle>> #1DBAAA{
+        object createIssueForm #DarkSlateGray
+        createIssueForm : input(text) = name
+        createIssueForm : input(text) = issue_title
+        createIssueForm : input(text) = issue_text
+        createIssueForm : input(text) = created_by 
+        createIssueForm : input(text) = assigned_to 
+        createIssueForm : input(text) = status_text 
+    }
+}
+
+createProjectForm --> "POST /" : name
+createIssueForm --> "POST /api/issues/:project" : req.body
+createIssueForm <-- "GET /:project"
+
+package routes <<Rectangle>> #DodgerBlue {
+
+    rectangle index.js #1DBAAA {
+        rectangle "GET /" {
+ 
+        }
+   
+        rectangle "POST /" {
+            
+        }
+        rectangle "GET /:project" {
+
+        }
+
+    }
+    package fcctesting.js <<Rectangle>> #1DBAAA {
+        
+    }
+    package api.js <<Rectangle>> #1DBAAA {
+        rectangle "GET /api/issues/:project" {
+
+        }
+        rectangle "POST /api/issues/:project" {
+            
+        }
+        rectangle "PUT /api/issues/:project" {
+
+        }
+        rectangle "DELETE /api/issues/:project" {
+
+        }
+    }
+}
+
+
+
+
+package models <<Rectangle>> #DodgerBlue {
+    class Issue #Indigo {
+        + project: String
+        + issue_title: String
+        + issue_text: String
+        + created_by: String
+        + assigned_to: String
+        + status_text: String
+        + created_on: Date 
+        + updated_on: Date
+        + open: Boolean
+    }
+
+    class Project #Indigo {
+        + name: String
+        + issues: Array[type:Issues]
+    }
+}
+Project "1" -- "1..*" Issue
+Project --> "GET /" : find({})
+Project <-- "POST /" : create({name:req.body.name})
+
+Project "find({name})" <-- "GET /:project" #Red
+Issue "find({_id})" <-- "GET /:project" #Red
+
+
+@enduml
+
+    project:{type:String,required:true, select:false},
+    issue_title:{type:String,required:true},
+    issue_text:{type:String,required:true},
+    created_by:{type:String,required:true},
+    assigned_to:String,
+    status_text:String,
+    created_on:{type:Date,default:Date.now()},
+    updated_on: { type: Date, default: Date.now() },
+    open: {type:Boolean, default:true}

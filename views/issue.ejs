@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <title>Issues</title>
+</head>
+<body>
+    <% if(!update){%>
+        <div id='submitNewIssue'>
+            <br>
+            <h3>Submit a new issue: <%=name%></h3>
+            <form id="newIssue" method="post" action="/api/issues/<%=name%>?id=<%=project._id%>">
+                <input type="hidden" name="project" value='<%=name%>'>
+                <input type="text" name="issue_title" placeholder="*Title" style="width: 320px; margin-bottom: 3px;"
+                    required=''><br>
+                <textarea type="text" name="issue_text" placeholder="*Text" style="width: 320px; height: 100px;"
+                    required=''></textarea><br>
+                <input type="text" name="created_by" placeholder="*Created by" style="width: 100px" required=''>
+                <input type="text" name="assigned_to" placeholder="(opt)Assigned to" style="width: 100px">
+                <input type="text" name="status_text" placeholder="(opt)Status text" style="width: 100px"><br>
+                <button type="submit">Submit Issue</button>
+            </form>
+        </div>
+    <%}else{%>
+        <!-- If the update button pressed, this form shows with all the data filled in -->
+        <div id="updateIssue">
+            <br>
+            <h3>Update an issue: <%=name%></h3>
+            <form id="updateForm" method="POST" class="border" action="/api/issues/<%=name%>?_method=PUT">
+                <input type="text" name="_id" placeholder="*_id" value='<%=issueToUpdate._id%>' style="width: 100px" required=""><br>
+                <input type="text" name="issue_title" placeholder="(opt)Title" value='<%=issueToUpdate.issue_title%>' style="width: 100px"><br>
+                <textarea type="text" name="issue_text" placeholder="<%=issueToUpdate.issue_text%>" value='<%=issueToUpdate.issue_text%>' style="width: 100px"></textarea><br>
+                <input type="text" name="created_by" value='<%=issueToUpdate.created_by%>' placeholder="(opt)Created by" style="width: 100px"><br>
+                <input type="text" name="assigned_to" value='<%=issueToUpdate.assigned_to%>' placeholder="(opt)Assigned to" style="width: 100px"><br>
+                <input type="text" name="status_text" value='<%=issueToUpdate.status_text%>' placeholder="(opt)Status text" style="width: 100px"><br>
+                <label><input type="checkbox" name="open" value=false> Check to close issue</label><br>
+                <button type="submit">Submit Issue</button>
+            </form>
+        </div>
+    <%}%>
+
+    <div id='issueDisplay'>
+        <% if(issues){ %>
+            <%issues.forEach(ele=>{%>
+                <%var openstatus;%>
+                <%(ele.open) ? openstatus = 'open' : openstatus = 'closed';%>
+
+                <div class=issue <%=openstatus%>
+                    <p class="id">id: <%=ele._id%></p>
+    
+                    <h3><%=ele.issue_title%> -  <%=openstatus%></h3>
+                
+                    <p><%=ele.issue_text%></p>
+                    <p><%=ele.status_text%></p>
+                    <p class="id"><b>Created by:</b> <%=ele.created_by%>  <b>Assigned to:</b> <%=ele.assigned_to%>
+                    <p class="id"><b>Created on:</b> <%=ele.created_on%>  <b>Last updated:</b> <%=ele.updated_on%>
+                    <br><a href="#" class="closeIssue" id="<%=ele._id%>">close?</a> <a href="#" class="deleteIssue" id="<%=ele._id%>">delete?</a>
+                    <a href="/<%=name%>?form=update&updateId=<%=ele._id%>">UPDATE</a>
+                </div>
+            <%})%>
+        <%}%>
+    </div>
+    
+    <hr style='margin: 50px; margin-top: 200px'>
+</body>
+</html>

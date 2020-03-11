@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Welcome to HyperDev!</title>
+    <meta name="description" content="A cool thing made with HyperDev">
+   
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="/favicon.ico">
+</head>
+
+<body>
+    <header>
+        <h1>
+            ISQA_4 - Issue Tracker
+        </h1>
+    </header>
+    <div>
+        <div>
+            <h2>Start New Project</h2>
+            <form method="POST" action="/">
+                <input type="text" name='name' placeholder="Project Name">
+                <input type="submit" value="Submit">
+            </form>
+        </div>
+        <div>
+            <h2>Select A Project</h2>
+            <div>
+                <!-- Print out all the projects from the database -->
+                <%projects.forEach(project=>{%>
+                    <div class="project-container">
+                        <h4><%=project.name%></h4>
+                        <a href="/api/issues/<%=project.name%>">See Current Issues</a>
+                        <a href="/<%=project.name%>">Add Issue</a>
+                        <form action="/api/issues/<%=project.name%>?_method=DELETE&id=<%=project._id%>" method="POST">
+                            <input type="submit" value="DELETE PROJECT">
+                        </form>
+
+                    </div>
+                <%})%>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
