@@ -1,0 +1,51 @@
+body{
+    background-color: rgb(95, 154, 154);
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    height: 100vh;
+}
+#landing-page-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+header{
+    background-color: darkslategray;
+    width: 100%;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+#project-page-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+#new-project-container{
+    border:5px solid black;
+    background-color: burlywood;
+    padding: 20px;
+    margin-top: 20px;
+    width: 300px;
+}
+
+#project-container{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+#projects{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 20px;
+}
+.project-container{
+    margin: 20px;
+    background-color: darkkhaki;
+    padding: 10px;
+    border: 2px solid black;
+}
